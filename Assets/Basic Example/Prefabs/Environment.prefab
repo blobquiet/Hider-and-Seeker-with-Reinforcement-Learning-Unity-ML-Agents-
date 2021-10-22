@@ -905,10 +905,10 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 6b79984ae95f17a4fa245f652c5178da, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 1d97d9d4cb98953468d79705281f9a0d, type: 3}
   m_InferenceDevice: 3
   m_BehaviorType: 0
-  m_BehaviorName: My Behavior
+  m_BehaviorName: MoveToGoal
   TeamId: 0
   m_UseChildSensors: 1
   m_UseChildActuators: 1
@@ -928,7 +928,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 1000
+  MaxStep: 200
   targetTransform: {fileID: 7316834908675139525}
   winMaterial: {fileID: 2100000, guid: af55e6835fc7f5344a700ab183a25ca1, type: 2}
   loseMaterial: {fileID: 2100000, guid: 66ed0b5f67f3d7147856eb20c585ca77, type: 2}
@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 5
+  DecisionPeriod: 20
   TakeActionsBetweenDecisions: 1
 --- !u!1 &7316834909464352756
 GameObject:
