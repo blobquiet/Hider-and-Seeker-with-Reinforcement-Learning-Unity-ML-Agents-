@@ -6,7 +6,7 @@
     "com.unity.ide.vscode": "1.2.3",
     "com.unity.inputsystem": "1.1.0-preview.3",
     "com.unity.ml-agents": "1.0.8",
-    "com.unity.ml-agents.extensions": "file:C:/Users/David/Desktop/Unity projects/ML-agents 18/com.unity.ml-agents.extensions",
+    "com.unity.ml-agents.extensions": "file:../com.unity.ml-agents.extensions",
     "com.unity.nuget.newtonsoft-json": "2.0.0",
     "com.unity.test-framework": "1.1.22",
     "com.unity.textmeshpro": "3.0.1",

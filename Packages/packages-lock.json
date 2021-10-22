@@ -85,7 +85,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents.extensions": {
-      "version": "file:C:/Users/David/Desktop/Unity projects/ML-agents 18/com.unity.ml-agents.extensions",
+      "version": "file:../com.unity.ml-agents.extensions",
       "depth": 0,
       "source": "local",
       "dependencies": {
