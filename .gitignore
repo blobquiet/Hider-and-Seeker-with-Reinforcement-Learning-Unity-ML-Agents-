@@ -58,3 +58,35 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Mac hidden files
+*.DS_Store
+*/.ipynb_checkpoints
+*/.idea
+*.pyc
+*.idea/misc.xml
+*.idea/modules.xml
+*.idea/
+*.iml
+*.cache
+*/build/
+*/dist/
+*.egg-info*
+*.eggs*
+*.gitignore.swp
+
+# VSCode hidden files
+*.vscode/
+
+# Visual Studio 2015 cache directory
+/.vs/
+
+.DS_Store
+
+# Builds
+*.apk
+*.unitypackage
+*.app
+*.exe
+*.x86_64
+*.x86
+
