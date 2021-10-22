@@ -34,6 +34,7 @@ public class MoveToGoalAgent : Agent
 
         float moveSpeed = 5f;
         transform.localPosition += new Vector3(moveX,0,moveZ)* Time.deltaTime * moveSpeed;
+        AddReward(-1f/MaxStep);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -46,12 +47,12 @@ public class MoveToGoalAgent : Agent
     private void OnTriggerEnter(Collider other) {
         if (other.name == "PlatformBorder"){
             FloorMeshrender.material = loseMaterial;
-            SetReward(-1f);
+            SetReward(-10f);
             EndEpisode();
         }
         if (other.name =="LargeGoal"){
             FloorMeshrender.material = winMaterial;
-            SetReward(1f);
+            SetReward(100f);
             EndEpisode();
         }
         

@@ -2,7 +2,7 @@
   "dependencies": {
     "com.unity.barracuda": {
       "version": "2.0.0-pre.3",
-      "depth": 1,
+      "depth": 2,
       "source": "registry",
       "dependencies": {
         "com.unity.burst": "1.3.4",
@@ -74,14 +74,15 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents": {
-      "version": "file:C:/Users/David/Desktop/Unity projects/ML-agents 18/com.unity.ml-agents",
-      "depth": 0,
-      "source": "local",
+      "version": "2.1.0-exp.1",
+      "depth": 1,
+      "source": "registry",
       "dependencies": {
         "com.unity.barracuda": "2.0.0-pre.3",
         "com.unity.modules.imageconversion": "1.0.0",
         "com.unity.modules.jsonserialize": "1.0.0"
-      }
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.ml-agents.extensions": {
       "version": "file:C:/Users/David/Desktop/Unity projects/ML-agents 18/com.unity.ml-agents.extensions",

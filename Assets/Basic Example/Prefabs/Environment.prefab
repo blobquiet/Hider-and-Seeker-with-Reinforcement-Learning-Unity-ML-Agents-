@@ -832,6 +832,7 @@ GameObject:
   - component: {fileID: 7316834909161868482}
   - component: {fileID: 7316834909161868493}
   - component: {fileID: 7316834909161868483}
+  - component: {fileID: 3570084658466701205}
   m_Layer: 0
   m_Name: BasicAgent
   m_TagString: Untagged
@@ -928,7 +929,7 @@ MonoBehaviour:
   agentParameters:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
-  MaxStep: 200
+  MaxStep: 500
   targetTransform: {fileID: 7316834908675139525}
   winMaterial: {fileID: 2100000, guid: af55e6835fc7f5344a700ab183a25ca1, type: 2}
   loseMaterial: {fileID: 2100000, guid: 66ed0b5f67f3d7147856eb20c585ca77, type: 2}
@@ -945,8 +946,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DecisionPeriod: 20
+  DecisionPeriod: 5
   TakeActionsBetweenDecisions: 1
+--- !u!114 &3570084658466701205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7316834909161868492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2902496c0120472b90269f94a0aec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Record: 0
+  NumStepsToRecord: 0
+  DemonstrationName: MoveToGoalDemo
+  DemonstrationDirectory: Demos
 --- !u!1 &7316834909464352756
 GameObject:
   m_ObjectHideFlags: 0
