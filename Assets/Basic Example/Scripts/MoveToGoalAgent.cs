@@ -57,7 +57,4 @@ public class MoveToGoalAgent : Agent
         }
         
     }
-
-
-
 }
