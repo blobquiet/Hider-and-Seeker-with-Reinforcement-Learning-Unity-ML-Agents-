@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pickle Rick (Rick & Morty)
+* source:	https://sketchfab.com/3d-models/pickle-rick-rick-morty-6d3e53d477c74e4fba83146cd7feed39
+* author:	Robin J (https://sketchfab.com/ScoobSter_)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pickle Rick (Rick & Morty)" (https://sketchfab.com/3d-models/pickle-rick-rick-morty-6d3e53d477c74e4fba83146cd7feed39) by Robin J (https://sketchfab.com/ScoobSter_) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

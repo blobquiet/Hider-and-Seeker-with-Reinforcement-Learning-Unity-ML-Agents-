@@ -1,0 +1,11 @@
+Model Information:
+* title:	rick and morty lab
+* source:	https://sketchfab.com/3d-models/rick-and-morty-lab-a55ff01c81de409c8b127c5d39460352
+* author:	julianikonenko (https://sketchfab.com/julianikonenko)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "rick and morty lab" (https://sketchfab.com/3d-models/rick-and-morty-lab-a55ff01c81de409c8b127c5d39460352) by julianikonenko (https://sketchfab.com/julianikonenko) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
