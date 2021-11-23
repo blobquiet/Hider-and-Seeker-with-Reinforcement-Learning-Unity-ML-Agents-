@@ -10,10 +10,10 @@ public class SeekerAgent : Agent
     private Rigidbody m_AgentRb;
     private SettingsHideAndSeek m_Settings;
     private ControllerHideAndSeek m_GameController;
-
+    public GameObject Controller;
     public override void Initialize()
     {
-        m_GameController = GetComponentInParent<ControllerHideAndSeek>();
+        m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
     }
@@ -67,6 +67,29 @@ public class SeekerAgent : Agent
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);
         //AddReward(-1f/MaxStep);
+
+        var RaycastSensor = this.gameObject.transform.GetChild(0);
+        var c = RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>();
+        RayPerceptionInput spec = c.GetRayPerceptionInput();
+        RayPerceptionOutput obs = RayPerceptionSensor.Perceive(spec);
+
+        //print(obs);
+        Debug.Log(obs.RayOutputs);
+        
+        
+
+        /*
+        if (hitObjects.Where(col => col.gameObject.tag == "hider").ToArray().Length == 1)
+        {
+            AddReward(1.0f);
+            EndEpisode();
+        }
+        if (hitObjects.Where(col => col.gameObject.tag == "pit").ToArray().Length == 1)
+        {
+            AddReward(-1f);
+            EndEpisode();
+        }
+        */
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -94,8 +117,10 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("dragon"))
         {
-            m_GameController.KilledByBaddie(this, col);
-            m_GameController.TouchedHazard(this);
+            m_GameController.KilledByBaddie();
+            //m_GameController.TouchedHazard(this);
         }
     }
+
+    
 }

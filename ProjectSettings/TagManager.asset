@@ -3,7 +3,17 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - ground
+  - dragon
+  - wall
+  - agent
+  - key
+  - goal
+  - block
+  - portal
+  - lock
+  - hider
   layers:
   - Default
   - TransparentFX

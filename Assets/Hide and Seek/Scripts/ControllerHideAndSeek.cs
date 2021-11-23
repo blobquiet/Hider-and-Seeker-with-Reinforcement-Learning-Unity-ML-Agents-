@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.MLAgents;
 
 public class ControllerHideAndSeek : MonoBehaviour
 {
     [System.Serializable]
     public class PlayerInfo
     {
-        public PushAgentEscape Agent;
+        public SeekerAgent Agent;
         [HideInInspector]
         public Vector3 StartingPos;
         [HideInInspector]
@@ -68,7 +69,7 @@ public class ControllerHideAndSeek : MonoBehaviour
     private int m_NumberOfRemainingPlayers;
     public GameObject Key;
     public GameObject Tombstone;
-    //private SimpleMultiAgentGroup m_AgentGroup;
+    private SimpleMultiAgentGroup m_AgentGroup;
     void Start()
     {
 
@@ -83,11 +84,8 @@ public class ControllerHideAndSeek : MonoBehaviour
         //Reset Players Remaining
         m_NumberOfRemainingPlayers = AgentsList.Count;
 
-        //Hide The Key
-        Key.SetActive(false);
-
         // Initialize TeamManager
-       // m_AgentGroup = new SimpleMultiAgentGroup();
+        m_AgentGroup = new SimpleMultiAgentGroup();
         foreach (var item in AgentsList)
         {
             item.StartingPos = item.Agent.transform.position;
@@ -95,7 +93,7 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.Rb = item.Agent.GetComponent<Rigidbody>();
             item.Col = item.Agent.GetComponent<Collider>();
             // Add to team manager
-           //   m_AgentGroup.RegisterAgent(item.Agent);
+            m_AgentGroup.RegisterAgent(item.Agent);
         }
         foreach (var item in DragonsList)
         {
@@ -114,7 +112,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         m_ResetTimer += 1;
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
-            //m_AgentGroup.GroupEpisodeInterrupted();
+            m_AgentGroup.GroupEpisodeInterrupted();
             ResetScene();
         }
     }
@@ -124,7 +122,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         m_NumberOfRemainingPlayers--;
         if (m_NumberOfRemainingPlayers == 0)
         {
-            //m_AgentGroup.EndGroupEpisode();
+            m_AgentGroup.EndGroupEpisode();
             ResetScene();
         }
         else
@@ -135,29 +133,21 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     public void UnlockDoor()
     {
-        //m_AgentGroup.AddGroupReward(1f);
+        m_AgentGroup.AddGroupReward(1f);
         StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.goalScoredMaterial, 0.5f));
 
         print("Unlocked Door");
-        //m_AgentGroup.EndGroupEpisode();
+        m_AgentGroup.EndGroupEpisode();
 
         ResetScene();
     }
 
-    public void KilledByBaddie(SeekerAgent agent, Collision baddieCol)
+    public void KilledByBaddie()
     {
-        baddieCol.gameObject.SetActive(false);
-        m_NumberOfRemainingPlayers--;
-        agent.gameObject.SetActive(false);
-        print($"{baddieCol.gameObject.name} ate {agent.transform.name}");
-
-        //Spawn Tombstone
-        Tombstone.transform.SetPositionAndRotation(agent.transform.position, agent.transform.rotation);
-        Tombstone.SetActive(true);
-
-        //Spawn the Key Pickup
-        Key.transform.SetPositionAndRotation(baddieCol.collider.transform.position, baddieCol.collider.transform.rotation);
-        Key.SetActive(true);
+        print("KilledByBaddie()");
+        m_AgentGroup.AddGroupReward(1f);
+        StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.goalScoredMaterial, 0.5f));
+        ResetScene();
     }
 
     /// <summary>
@@ -195,7 +185,7 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     public void BaddieTouchedBlock()
     {
-        //m_AgentGroup.EndGroupEpisode();
+        m_AgentGroup.EndGroupEpisode();
 
         // Swap ground material for a bit to indicate we scored.
         StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.failMaterial, 0.5f));
@@ -209,6 +199,7 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     void ResetScene()
     {
+        print("Reset Scene()");
 
         //Reset counter
         m_ResetTimer = 0;
@@ -230,17 +221,9 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.Agent.transform.SetPositionAndRotation(pos, rot);
             item.Rb.velocity = Vector3.zero;
             item.Rb.angularVelocity = Vector3.zero;
-            item.Agent.MyKey.SetActive(false);
-            item.Agent.IHaveAKey = false;
             item.Agent.gameObject.SetActive(true);
             //m_AgentGroup.RegisterAgent(item.Agent);
         }
-
-        //Reset Key
-        Key.SetActive(false);
-
-        //Reset Tombstone
-        Tombstone.SetActive(false);
 
         //End Episode
         foreach (var item in DragonsList)
