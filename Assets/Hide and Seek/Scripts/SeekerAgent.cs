@@ -85,7 +85,7 @@ public class SeekerAgent : Agent
             discreteActionsOut[0] = 4;
         }
         else if (Input.GetKey(KeyCode.S))
-        {
+        {   
             discreteActionsOut[0] = 2;
         }
     }
@@ -94,8 +94,8 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("dragon"))
         {
-            m_GameController.KilledByBaddie(this, col);
-            m_GameController.TouchedHazard(this);
+            // m_GameController.KilledByBaddie(this, col);
+            // m_GameController.TouchedHazard(this);
         }
     }
 }

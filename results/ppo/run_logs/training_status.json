@@ -1,0 +1,29 @@
+{
+    "MoveToHider": {
+        "checkpoints": [
+            {
+                "steps": 345012,
+                "file_path": "results/ppo/MoveToHider/MoveToHider-345012.onnx",
+                "reward": 25.834268355333222,
+                "creation_time": 1637365164.485363,
+                "auxillary_file_paths": [
+                    "results/ppo/MoveToHider/MoveToHider-345012.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 345012,
+            "file_path": "results/ppo/MoveToHider.onnx",
+            "reward": 25.834268355333222,
+            "creation_time": 1637365164.485363,
+            "auxillary_file_paths": [
+                "results/ppo/MoveToHider/MoveToHider-345012.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.27.0",
+        "torch_version": "1.7.0"
+    }
+}

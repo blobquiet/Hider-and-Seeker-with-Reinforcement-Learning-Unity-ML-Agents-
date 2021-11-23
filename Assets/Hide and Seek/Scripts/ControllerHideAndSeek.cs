@@ -67,8 +67,9 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     private int m_NumberOfRemainingPlayers;
     public GameObject Key;
-    public GameObject Tombstone;
+    // public GameObject Tombstone;
     //private SimpleMultiAgentGroup m_AgentGroup;
+    
     void Start()
     {
 
@@ -152,8 +153,8 @@ public class ControllerHideAndSeek : MonoBehaviour
         print($"{baddieCol.gameObject.name} ate {agent.transform.name}");
 
         //Spawn Tombstone
-        Tombstone.transform.SetPositionAndRotation(agent.transform.position, agent.transform.rotation);
-        Tombstone.SetActive(true);
+        // Tombstone.transform.SetPositionAndRotation(agent.transform.position, agent.transform.rotation);
+        // Tombstone.SetActive(true);
 
         //Spawn the Key Pickup
         Key.transform.SetPositionAndRotation(baddieCol.collider.transform.position, baddieCol.collider.transform.rotation);
@@ -240,7 +241,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         Key.SetActive(false);
 
         //Reset Tombstone
-        Tombstone.SetActive(false);
+        // Tombstone.SetActive(false);
 
         //End Episode
         foreach (var item in DragonsList)
