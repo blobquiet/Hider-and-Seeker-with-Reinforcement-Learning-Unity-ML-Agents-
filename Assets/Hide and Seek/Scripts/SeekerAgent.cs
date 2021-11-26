@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
+using System.Linq;
 
 public class SeekerAgent : Agent
 {
@@ -61,35 +62,34 @@ public class SeekerAgent : Agent
         m_AgentRb.AddForce(dirToGo * m_Settings.agentRunSpeed,
             ForceMode.VelocityChange);
     }
-    
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);
         //AddReward(-1f/MaxStep);
 
-        var RaycastSensor = this.gameObject.transform.GetChild(0);
-        var c = RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>();
-        RayPerceptionInput spec = c.GetRayPerceptionInput();
-        RayPerceptionOutput obs = RayPerceptionSensor.Perceive(spec);
+        var RaycastSensor = this.gameObject.transform.GetChild(0);        
+        var Output = RayPerceptionSensor.Perceive(RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>().GetRayPerceptionInput());
+        for (int i = 0; i<15; i++){
+            print(Output.RayOutputs[i].HitGameObject.name);
 
-        //print(obs);
-        Debug.Log(obs.RayOutputs);
-        
-        
+            switch (Output.RayOutputs[i].HitTagIndex)
+            {
+                case 2:
+                    print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
+                    break;
+                
+                default:
+                    print("Looking for tag");
+                    break;
+            }
 
-        /*
-        if (hitObjects.Where(col => col.gameObject.tag == "hider").ToArray().Length == 1)
-        {
-            AddReward(1.0f);
-            EndEpisode();
         }
-        if (hitObjects.Where(col => col.gameObject.tag == "pit").ToArray().Length == 1)
-        {
-            AddReward(-1f);
-            EndEpisode();
-        }
-        */
+
+        //https://forum.unity.com/threads/how-to-get-rayperceptionsensor-values.1010440/
+
+        // https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/api/Unity.MLAgents.Sensors.RayPerceptionOutput.RayOutput.html
+        
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -117,10 +117,10 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("dragon"))
         {
-            m_GameController.KilledByBaddie();
+            //m_GameController.KilledByBaddie();
             //m_GameController.TouchedHazard(this);
         }
+        
     }
-
     
 }
