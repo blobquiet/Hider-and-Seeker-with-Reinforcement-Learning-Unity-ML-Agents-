@@ -66,25 +66,29 @@ public class SeekerAgent : Agent
     {
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);
-        //AddReward(-1f/MaxStep);
 
         var RaycastSensor = this.gameObject.transform.GetChild(0);        
         var Output = RayPerceptionSensor.Perceive(RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>().GetRayPerceptionInput());
+        var foundSeeker = false;
         for (int i = 0; i<15; i++){
-            print(Output.RayOutputs[i].HitGameObject.name);
-
+            //print(Output.RayOutputs[i].HitGameObject.name);
             switch (Output.RayOutputs[i].HitTagIndex)
             {
                 case 2:
+                    foundSeeker=true;
                     print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
-                    break;
-                
+                    break;                
                 default:
                     print("Looking for tag");
                     break;
             }
-
         }
+        if (foundSeeker){
+                AddReward(0.1f);
+                foundSeeker=false;
+            }
+        
+        //AddReward(-1f/MaxStep);
 
         //https://forum.unity.com/threads/how-to-get-rayperceptionsensor-values.1010440/
 
@@ -117,7 +121,8 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("dragon"))
         {
-            //m_GameController.KilledByBaddie();
+            AddReward(1);
+            m_GameController.Catched();
             //m_GameController.TouchedHazard(this);
         }
         

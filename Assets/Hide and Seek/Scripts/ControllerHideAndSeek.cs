@@ -64,7 +64,7 @@ public class ControllerHideAndSeek : MonoBehaviour
     private Dictionary<PushAgentEscape, PlayerInfo> m_PlayerDict = new Dictionary<PushAgentEscape, PlayerInfo>();
     public bool UseRandomAgentRotation = true;
     public bool UseRandomAgentPosition = true;
-    PushBlockSettings m_PushBlockSettings;
+    SettingsHideAndSeek HideAndSeekSettings;
 
     private int m_NumberOfRemainingPlayers;
     public GameObject Key;
@@ -79,12 +79,13 @@ public class ControllerHideAndSeek : MonoBehaviour
         m_GroundRenderer = ground.GetComponent<Renderer>();
         // Starting material
         m_GroundMaterial = m_GroundRenderer.material;
-        m_PushBlockSettings = FindObjectOfType<PushBlockSettings>();
+        HideAndSeekSettings = FindObjectOfType<SettingsHideAndSeek>();
 
         //Reset Players Remaining
         m_NumberOfRemainingPlayers = AgentsList.Count;
 
         // Initialize TeamManager
+        /*
         m_AgentGroup = new SimpleMultiAgentGroup();
         foreach (var item in AgentsList)
         {
@@ -102,7 +103,7 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.T = item.Agent.transform;
             item.Col = item.Agent.GetComponent<Collider>();
         }
-
+        */
         ResetScene();
     }
 
@@ -112,7 +113,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         m_ResetTimer += 1;
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
-            m_AgentGroup.GroupEpisodeInterrupted();
+            //m_AgentGroup.GroupEpisodeInterrupted();
             ResetScene();
         }
     }
@@ -134,7 +135,7 @@ public class ControllerHideAndSeek : MonoBehaviour
     public void UnlockDoor()
     {
         m_AgentGroup.AddGroupReward(1f);
-        StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.goalScoredMaterial, 0.5f));
+        StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.goalScoredMaterial, 0.5f));
 
         print("Unlocked Door");
         m_AgentGroup.EndGroupEpisode();
@@ -142,11 +143,11 @@ public class ControllerHideAndSeek : MonoBehaviour
         ResetScene();
     }
 
-    public void KilledByBaddie()
+    public void Catched()
     {
-        print("KilledByBaddie()");
-        m_AgentGroup.AddGroupReward(1f);
-        StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.goalScoredMaterial, 0.5f));
+        print("Catched()");
+        //m_AgentGroup.AddGroupReward(1f);
+        StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.goalScoredMaterial, 0.5f));
         ResetScene();
     }
 
@@ -159,11 +160,11 @@ public class ControllerHideAndSeek : MonoBehaviour
         var randomSpawnPos = Vector3.zero;
         while (foundNewSpawnLocation == false)
         {
-            var randomPosX = Random.Range(-areaBounds.extents.x * m_PushBlockSettings.spawnAreaMarginMultiplier,
-                areaBounds.extents.x * m_PushBlockSettings.spawnAreaMarginMultiplier);
+            var randomPosX = Random.Range(-areaBounds.extents.x * HideAndSeekSettings.spawnAreaMarginMultiplier,
+                areaBounds.extents.x * HideAndSeekSettings.spawnAreaMarginMultiplier);
 
-            var randomPosZ = Random.Range(-areaBounds.extents.z * m_PushBlockSettings.spawnAreaMarginMultiplier,
-                areaBounds.extents.z * m_PushBlockSettings.spawnAreaMarginMultiplier);
+            var randomPosZ = Random.Range(-areaBounds.extents.z * HideAndSeekSettings.spawnAreaMarginMultiplier,
+                areaBounds.extents.z * HideAndSeekSettings.spawnAreaMarginMultiplier);
             randomSpawnPos = ground.transform.position + new Vector3(randomPosX, 1f, randomPosZ);
             if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
             {
@@ -188,7 +189,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         m_AgentGroup.EndGroupEpisode();
 
         // Swap ground material for a bit to indicate we scored.
-        StartCoroutine(GoalScoredSwapGroundMaterial(m_PushBlockSettings.failMaterial, 0.5f));
+        StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.failMaterial, 0.5f));
         ResetScene();
     }
 
@@ -213,6 +214,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         transform.Rotate(new Vector3(0f, rotationAngle, 0f));
 
         //Reset Agents
+        /*
         foreach (var item in AgentsList)
         {
             var pos = UseRandomAgentPosition ? GetRandomSpawnPos() : item.StartingPos;
@@ -224,6 +226,7 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.Agent.gameObject.SetActive(true);
             //m_AgentGroup.RegisterAgent(item.Agent);
         }
+        */
 
         //End Episode
         foreach (var item in DragonsList)
