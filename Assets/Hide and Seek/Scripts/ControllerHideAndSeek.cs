@@ -6,7 +6,7 @@ using Unity.MLAgents;
 public class ControllerHideAndSeek : MonoBehaviour
 {
     [System.Serializable]
-    public class PlayerInfo
+    public class SeekerInfo
     {
         public SeekerAgent Agent;
         [HideInInspector]
@@ -20,9 +20,9 @@ public class ControllerHideAndSeek : MonoBehaviour
     }
 
     [System.Serializable]
-    public class DragonInfo
+    public class HiderInfo
     {
-        public SimpleNPC Agent;
+        public HiderAgent Agent;
         [HideInInspector]
         public Vector3 StartingPos;
         [HideInInspector]
@@ -31,8 +31,6 @@ public class ControllerHideAndSeek : MonoBehaviour
         public Rigidbody Rb;
         [HideInInspector]
         public Collider Col;
-        public Transform T;
-        public bool IsDead;
     }
 
     /// <summary>
@@ -59,16 +57,14 @@ public class ControllerHideAndSeek : MonoBehaviour
     /// </summary>
     Renderer m_GroundRenderer;
 
-    public List<PlayerInfo> AgentsList = new List<PlayerInfo>();
-    public List<DragonInfo> DragonsList = new List<DragonInfo>();
-    private Dictionary<PushAgentEscape, PlayerInfo> m_PlayerDict = new Dictionary<PushAgentEscape, PlayerInfo>();
+    public List<SeekerInfo> SeekersList = new List<SeekerInfo>();
+    public List<HiderInfo> HidersList = new List<HiderInfo>();
+    private Dictionary<PushAgentEscape, SeekerInfo> m_PlayerDict = new Dictionary<PushAgentEscape, SeekerInfo>();
     public bool UseRandomAgentRotation = true;
     public bool UseRandomAgentPosition = true;
     SettingsHideAndSeek HideAndSeekSettings;
 
     private int m_NumberOfRemainingPlayers;
-    public GameObject Key;
-    public GameObject Tombstone;
     private SimpleMultiAgentGroup m_AgentGroup;
     void Start()
     {
@@ -82,7 +78,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         HideAndSeekSettings = FindObjectOfType<SettingsHideAndSeek>();
 
         //Reset Players Remaining
-        m_NumberOfRemainingPlayers = AgentsList.Count;
+        m_NumberOfRemainingPlayers = SeekersList.Count;
 
         // Initialize TeamManager
         /*
@@ -114,6 +110,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
             //m_AgentGroup.GroupEpisodeInterrupted();
+            
             ResetScene();
         }
     }
@@ -165,7 +162,7 @@ public class ControllerHideAndSeek : MonoBehaviour
 
             var randomPosZ = Random.Range(-areaBounds.extents.z * HideAndSeekSettings.spawnAreaMarginMultiplier,
                 areaBounds.extents.z * HideAndSeekSettings.spawnAreaMarginMultiplier);
-            randomSpawnPos = ground.transform.position + new Vector3(randomPosX, 1f, randomPosZ);
+            randomSpawnPos = ground.transform.position + new Vector3(randomPosX, 0.79f, randomPosZ);
             if (Physics.CheckBox(randomSpawnPos, new Vector3(2.5f, 0.01f, 2.5f)) == false)
             {
                 foundNewSpawnLocation = true;
@@ -200,21 +197,35 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     void ResetScene()
     {
-        print("Reset Scene()");
+        //print("Reset Scene()");
 
         //Reset counter
         m_ResetTimer = 0;
 
         //Reset Players Remaining
-        m_NumberOfRemainingPlayers = AgentsList.Count;
+        m_NumberOfRemainingPlayers = SeekersList.Count;
 
         //Random platform rot
         var rotation = Random.Range(0, 4);
         var rotationAngle = rotation * 90f;
         transform.Rotate(new Vector3(0f, rotationAngle, 0f));
 
+        var pos = UseRandomAgentPosition ? GetRandomSpawnPos() : SeekersList[0].StartingPos;
+        var rot = UseRandomAgentRotation ? GetRandomRot() : SeekersList[0].StartingRot;
+
+        SeekersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
+        //AgentsList[0].Rb.velocity = Vector3.zero;
+        //AgentsList[0].Rb.angularVelocity = Vector3.zero;
+        
+        //AgentsList[0].Agent.SetRandomWalkSpeed();
+            //m_AgentGroup.RegisterAgent(item.Agent);
+            
+        pos = UseRandomAgentPosition ? GetRandomSpawnPos() : HidersList[0].StartingPos;
+        rot = UseRandomAgentRotation ? GetRandomRot() : HidersList[0].StartingRot;
+        HidersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
+/*
         //Reset Agents
-        /*
+        
         foreach (var item in AgentsList)
         {
             var pos = UseRandomAgentPosition ? GetRandomSpawnPos() : item.StartingPos;
@@ -226,8 +237,8 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.Agent.gameObject.SetActive(true);
             //m_AgentGroup.RegisterAgent(item.Agent);
         }
-        */
-
+        
+        
         //End Episode
         foreach (var item in DragonsList)
         {
@@ -239,5 +250,6 @@ public class ControllerHideAndSeek : MonoBehaviour
             item.Agent.SetRandomWalkSpeed();
             item.Agent.gameObject.SetActive(true);
         }
+        */
     }
 }

@@ -4,9 +4,8 @@ using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
-using System.Linq;
 
-public class SeekerAgent : Agent
+public class HiderAgent : Agent
 {
     private Rigidbody m_AgentRb;
     private SettingsHideAndSeek m_Settings;
@@ -27,6 +26,7 @@ public class SeekerAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
+        
 
     }
 
@@ -66,35 +66,15 @@ public class SeekerAgent : Agent
     {
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);
-
-        var RaycastSensor = this.gameObject.transform.GetChild(0);        
-        var Output = RayPerceptionSensor.Perceive(RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>().GetRayPerceptionInput());
-        var foundSeeker = false;
-        for (int i = 0; i<15; i++){
-            //print(Output.RayOutputs[i].HitGameObject.name);
-            switch (Output.RayOutputs[i].HitTagIndex)
-            {
-                case 1:
-                    foundSeeker=true;
-                    //print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
-                    break;                
-                default:
-                    break;
-            }
-        }
+        /*
         if (foundSeeker){
                 // If seeker is at gaze, counter penalty to finish quick
                 AddReward(1f/MaxStep);
-                //AddReward(1f/m_GameController.MaxEnvironmentSteps);
                 foundSeeker=false;
             }
-        // Penalty given each step to encourage agent to finish task quickly.
-        AddReward(-1f/MaxStep);
-
-        //https://forum.unity.com/threads/how-to-get-rayperceptionsensor-values.1010440/
-
-        // https://docs.unity3d.com/Packages/com.unity.ml-agents@1.0/api/Unity.MLAgents.Sensors.RayPerceptionOutput.RayOutput.html
-        
+        */
+        // Reward given each step to encourage agent to last longer.
+        AddReward(1f/MaxStep);        
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -128,18 +108,11 @@ public class SeekerAgent : Agent
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.transform.CompareTag("hider"))
+        if (col.transform.CompareTag("seeker"))
         {
-            SetReward(1);
-            m_GameController.Catched();
+            AddReward(-10);
             EndEpisode();
-            //m_GameController.TouchedHazard(this);
-        }
-        if (col.transform.CompareTag("wall"))
-        {
-            SetReward(-1);
-        }
-        
+        }        
     }
     
 }
