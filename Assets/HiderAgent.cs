@@ -11,8 +11,14 @@ public class HiderAgent : Agent
     private SettingsHideAndSeek m_Settings;
     private ControllerHideAndSeek m_GameController;
     public GameObject Controller;
+    
+    public GameObject Blocky;
+
+    bool canGrab;
+    
     public override void Initialize()
     {
+        canGrab = false;
         m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
@@ -57,6 +63,17 @@ public class HiderAgent : Agent
             case 6:
                 dirToGo = transform.right * 0.75f;
                 break;
+            case 7://I press space
+                if(Blocky.transform.parent != this.gameObject.transform.parent){//is grabed?
+                    Blocky.transform.parent = this.gameObject.transform.parent; //leave it  
+                    canGrab=true;
+                }
+                /*
+                //if not
+                else if(canGrab){//am I touching it?
+                    Blocky.transform.parent = this.gameObject.transform;//grab it!
+                }*/
+                break;
         }
         transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
         m_AgentRb.AddForce(dirToGo * m_Settings.agentRunSpeed,
@@ -74,7 +91,7 @@ public class HiderAgent : Agent
             }
         */
         // Reward given each step to encourage agent to last longer.
-        AddReward(1f/MaxStep);        
+        AddReward(1f/MaxStep);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -104,15 +121,38 @@ public class HiderAgent : Agent
         {
             discreteActionsOut[0] = 4;
         }
+        else if (Input.GetKey(KeyCode.Space))
+        {
+            discreteActionsOut[0] = 7;
+        }
     }
 
     void OnCollisionEnter(Collision col)
     {
+        if (col.transform.CompareTag("block"))
+        {
+            if(!canGrab){
+                AddReward(10);
+                Blocky.transform.parent = this.gameObject.transform;//grab it!
+            }
+            //canGrab = true;          
+        }
         if (col.transform.CompareTag("seeker"))
         {
             AddReward(-10);
             EndEpisode();
         }        
+    }
+
+    public void Spotted(){
+        AddReward(-1);
+    }
+
+    private void OnCollisionExit(Collision other) {
+        if (other.transform.CompareTag("block"))
+        {
+            canGrab = false;          
+        }
     }
     
 }

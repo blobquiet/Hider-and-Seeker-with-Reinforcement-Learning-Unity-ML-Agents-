@@ -66,6 +66,8 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     private int m_NumberOfRemainingPlayers;
     private SimpleMultiAgentGroup m_AgentGroup;
+
+    public GameObject Blocky;
     void Start()
     {
 
@@ -142,7 +144,6 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     public void Catched()
     {
-        print("Catched()");
         //m_AgentGroup.AddGroupReward(1f);
         StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.goalScoredMaterial, 0.5f));
         ResetScene();
@@ -219,10 +220,13 @@ public class ControllerHideAndSeek : MonoBehaviour
         
         //AgentsList[0].Agent.SetRandomWalkSpeed();
             //m_AgentGroup.RegisterAgent(item.Agent);
-            
         pos = UseRandomAgentPosition ? GetRandomSpawnPos() : HidersList[0].StartingPos;
         rot = UseRandomAgentRotation ? GetRandomRot() : HidersList[0].StartingRot;
         HidersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
+
+        Blocky.transform.SetPositionAndRotation(GetRandomSpawnPos(), GetRandomRot());
+        
+
 /*
         //Reset Agents
         

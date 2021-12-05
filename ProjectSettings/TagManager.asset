@@ -15,6 +15,7 @@ TagManager:
   - lock
   - hider
   - seeker
+  - shelter
   layers:
   - Default
   - TransparentFX
