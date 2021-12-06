@@ -23,15 +23,15 @@ public class SeekerAgent : Agent
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
     }
-
     
     
     public override void OnEpisodeBegin()
     {
-        m_AgentRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
-         RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+        //m_AgentRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
+        // RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+
+        //m_AgentRb.constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
         
-        m_AgentRb.constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
         //m_AgentRb.constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
         //transform.localPosition = new Vector3 (Random.Range(-4f,+1f),0,Random.Range(-2f,+2f));
         //targetTransform.localPosition = new Vector3 (Random.Range(+2f,+5f),0,Random.Range(-2.5f,+5));
@@ -82,10 +82,11 @@ public class SeekerAgent : Agent
         var RaycastSensor = this.gameObject.transform.GetChild(0);        
         var Output = RayPerceptionSensor.Perceive(RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>().GetRayPerceptionInput());
         var foundSeeker = false;
+        
         for (int i = 0; i<15; i++){
             //print(Output.RayOutputs[i].HitGameObject.name);
-            //if(Output.RayOutputs[i].HitGameObject.name == "HiderAgent")
-            //print(Output.RayOutputs[i].HitTagIndex);
+            if(Output.RayOutputs[i].HitGameObject.name == "HiderAgent")
+            print(Output.RayOutputs[i].HitTagIndex);
             switch (Output.RayOutputs[i].HitTagIndex)
             {
                 case 2:
@@ -98,7 +99,7 @@ public class SeekerAgent : Agent
         }
         if (foundSeeker){
                 // If seeker is at gaze, counter penalty to finish quick
-                AddReward(1f/MaxStep);
+                //AddReward(1f/MaxStep);
                 hiderAgent.Spotted();
                 //AddReward(1f/m_GameController.MaxEnvironmentSteps);
                 foundSeeker=false;
@@ -152,7 +153,7 @@ public class SeekerAgent : Agent
         }
         if (col.transform.CompareTag("wall"))
         {
-            AddReward(-1);
+            //AddReward(-1);
         }
     }
 }
