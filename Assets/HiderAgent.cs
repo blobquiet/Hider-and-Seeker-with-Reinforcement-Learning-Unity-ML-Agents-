@@ -11,6 +11,7 @@ public class HiderAgent : Agent
     private SettingsHideAndSeek m_Settings;
     private ControllerHideAndSeek m_GameController;
     public GameObject Controller;
+    public GameObject SeekerAgent;
     public override void Initialize()
     {
         m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
@@ -26,8 +27,8 @@ public class HiderAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-        
-
+        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(SeekerAgent.transform.localPosition);
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -120,3 +121,4 @@ public class HiderAgent : Agent
     }
     
 }
+
