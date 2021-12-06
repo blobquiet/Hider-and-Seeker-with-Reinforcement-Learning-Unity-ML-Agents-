@@ -224,6 +224,7 @@ public class ControllerHideAndSeek : MonoBehaviour
         rot = UseRandomAgentRotation ? GetRandomRot() : HidersList[0].StartingRot;
         HidersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
 
+        Blocky.transform.parent = SeekersList[0].Agent.transform.parent;
         Blocky.transform.SetPositionAndRotation(GetRandomSpawnPos(), GetRandomRot());
         
 
