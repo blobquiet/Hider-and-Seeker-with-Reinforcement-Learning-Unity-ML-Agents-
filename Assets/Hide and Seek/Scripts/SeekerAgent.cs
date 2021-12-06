@@ -12,9 +12,14 @@ public class SeekerAgent : Agent
     private SettingsHideAndSeek m_Settings;
     private ControllerHideAndSeek m_GameController;
     public GameObject Controller;
+    private HiderAgent hiderAgent;
+    public GameObject HiderAgent;
+
+    
     public override void Initialize()
     {
         m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
+        hiderAgent = HiderAgent.GetComponent<HiderAgent>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
     }
@@ -87,7 +92,7 @@ public class SeekerAgent : Agent
         if (foundSeeker){
                 // If seeker is at gaze, counter penalty to finish quick
                 AddReward(1f/MaxStep);
-                
+                hiderAgent.Spotted();
                 //AddReward(1f/m_GameController.MaxEnvironmentSteps);
                 foundSeeker=false;
             }
