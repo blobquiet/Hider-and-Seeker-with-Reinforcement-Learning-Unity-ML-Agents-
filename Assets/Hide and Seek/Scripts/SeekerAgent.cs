@@ -23,16 +23,23 @@ public class SeekerAgent : Agent
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
     }
+
+    
     
     public override void OnEpisodeBegin()
     {
+        m_AgentRb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
+         RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
+        
+        m_AgentRb.constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
+        //m_AgentRb.constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
         //transform.localPosition = new Vector3 (Random.Range(-4f,+1f),0,Random.Range(-2f,+2f));
         //targetTransform.localPosition = new Vector3 (Random.Range(+2f,+5f),0,Random.Range(-2.5f,+5));
     }
     
     public override void CollectObservations(VectorSensor sensor)
     {
-
+        
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -147,7 +154,5 @@ public class SeekerAgent : Agent
         {
             AddReward(-1);
         }
-        
     }
-    
 }

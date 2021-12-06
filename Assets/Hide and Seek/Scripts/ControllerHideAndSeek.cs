@@ -66,6 +66,8 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     private int m_NumberOfRemainingPlayers;
     private SimpleMultiAgentGroup m_AgentGroup;
+
+    private TotalAccuratedScaledTimer totalAccuratedScaledTimer;
     
     void Start()
     {
@@ -114,6 +116,8 @@ public class ControllerHideAndSeek : MonoBehaviour
             
             ResetScene();
         }
+        //totalAccuratedScaledTimer.Step();
+        //print("timer"+totalAccuratedScaledTimer.timer);
     }
 
     public void TouchedHazard(SeekerAgent agent)
@@ -195,6 +199,7 @@ public class ControllerHideAndSeek : MonoBehaviour
     {
         return Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
     }
+    
 
     void ResetScene()
     {
