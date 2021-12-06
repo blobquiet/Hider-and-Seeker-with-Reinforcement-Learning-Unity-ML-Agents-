@@ -66,6 +66,7 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     private int m_NumberOfRemainingPlayers;
     private SimpleMultiAgentGroup m_AgentGroup;
+    
     void Start()
     {
 

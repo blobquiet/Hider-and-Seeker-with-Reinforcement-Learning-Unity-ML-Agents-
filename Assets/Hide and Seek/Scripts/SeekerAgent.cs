@@ -12,9 +12,14 @@ public class SeekerAgent : Agent
     private SettingsHideAndSeek m_Settings;
     private ControllerHideAndSeek m_GameController;
     public GameObject Controller;
+    private HiderAgent hiderAgent;
+    public GameObject HiderAgent;
+
+    
     public override void Initialize()
     {
         m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
+        hiderAgent = HiderAgent.GetComponent<HiderAgent>();
         m_AgentRb = GetComponent<Rigidbody>();
         m_Settings = FindObjectOfType<SettingsHideAndSeek>();
     }
@@ -72,9 +77,11 @@ public class SeekerAgent : Agent
         var foundSeeker = false;
         for (int i = 0; i<15; i++){
             //print(Output.RayOutputs[i].HitGameObject.name);
+            //if(Output.RayOutputs[i].HitGameObject.name == "HiderAgent")
+            //print(Output.RayOutputs[i].HitTagIndex);
             switch (Output.RayOutputs[i].HitTagIndex)
             {
-                case 1:
+                case 2:
                     foundSeeker=true;
                     //print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
                     break;                
@@ -85,6 +92,7 @@ public class SeekerAgent : Agent
         if (foundSeeker){
                 // If seeker is at gaze, counter penalty to finish quick
                 AddReward(1f/MaxStep);
+                hiderAgent.Spotted();
                 //AddReward(1f/m_GameController.MaxEnvironmentSteps);
                 foundSeeker=false;
             }
@@ -130,14 +138,14 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("hider"))
         {
-            SetReward(1);
+            AddReward(10);
             m_GameController.Catched();
             EndEpisode();
             //m_GameController.TouchedHazard(this);
         }
         if (col.transform.CompareTag("wall"))
         {
-            SetReward(-1);
+            AddReward(-1);
         }
         
     }

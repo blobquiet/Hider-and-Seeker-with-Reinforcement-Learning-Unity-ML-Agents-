@@ -106,6 +106,10 @@ public class HiderAgent : Agent
         }
     }
 
+    public void Spotted(){
+        AddReward(-1);
+    }
+
     void OnCollisionEnter(Collision col)
     {
         if (col.transform.CompareTag("seeker"))
