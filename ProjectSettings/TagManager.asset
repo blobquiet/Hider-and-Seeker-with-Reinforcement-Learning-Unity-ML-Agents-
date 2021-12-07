@@ -16,6 +16,7 @@ TagManager:
   - hider
   - seeker
   - shelter
+  - outerwall
   layers:
   - Default
   - TransparentFX

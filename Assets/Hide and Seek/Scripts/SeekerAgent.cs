@@ -32,7 +32,8 @@ public class SeekerAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-
+        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(HiderAgent.transform.localPosition);
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -77,13 +78,13 @@ public class SeekerAgent : Agent
         var foundHider = false;
         for (int i = 0; i<15; i++){
             //print(Output.RayOutputs[i].HitGameObject.name);
-            if(Output.RayOutputs[i].HitGameObject.name == "HiderAgent")
-            print(Output.RayOutputs[i].HitTagIndex);
+            //if(Output.RayOutputs[i].HitGameObject.name == "HiderAgent")
+            //print(Output.RayOutputs[i].HitTagIndex);
             switch (Output.RayOutputs[i].HitTagIndex)
             {
-                case 2:
+                case 1:
                     foundHider=true;
-                    print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
+                    //print($"The tag {Output.RayOutputs[i].HitGameObject.name} was found!");
                     break;                
                 default:
                     break;
@@ -97,7 +98,7 @@ public class SeekerAgent : Agent
                 foundHider=false;
             }
         // Penalty given each step to encourage agent to finish task quickly.
-        AddReward(-2f/MaxStep);
+        AddReward(-1f/MaxStep);
 
         //https://forum.unity.com/threads/how-to-get-rayperceptionsensor-values.1010440/
 
@@ -142,12 +143,7 @@ public class SeekerAgent : Agent
             m_GameController.Catched();
             EndEpisode();
             //m_GameController.TouchedHazard(this);
-        }
-        if (col.transform.CompareTag("wall"))
-        {
-            AddReward(-1);
-        }
-        
+        }        
     }
     
 }

@@ -13,6 +13,7 @@ public class HiderAgent : Agent
     public GameObject Controller;
     
     public GameObject Blocky;
+    public GameObject SeekerAgent;
 
     bool canGrab;
     
@@ -32,7 +33,8 @@ public class HiderAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-        
+        sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(SeekerAgent.transform.localPosition);
 
     }
 
@@ -132,7 +134,7 @@ public class HiderAgent : Agent
         if (col.transform.CompareTag("block"))
         {
             if(!canGrab){
-                AddReward(10);
+                AddReward(0.5f);
                 Blocky.transform.parent = this.gameObject.transform;//grab it!
             }
             //canGrab = true;          
