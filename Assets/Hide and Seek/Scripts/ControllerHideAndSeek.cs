@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.MLAgents;
+using System.Linq;
 
 public class ControllerHideAndSeek : MonoBehaviour
 {
@@ -68,6 +69,8 @@ public class ControllerHideAndSeek : MonoBehaviour
     private SimpleMultiAgentGroup m_AgentGroup;
 
     private TotalAccuratedScaledTimer totalAccuratedScaledTimer;
+
+    public GameObject[] MapArray;
     
     void Start()
     {
@@ -199,10 +202,24 @@ public class ControllerHideAndSeek : MonoBehaviour
     {
         return Quaternion.Euler(0, Random.Range(0.0f, 360.0f), 0);
     }
+
+    // Randomly activates an inactive game object    
     
+    public void ActivateRandomMap()
+    {
+        for(int i = 0; i < MapArray.Length; i++)
+         {
+             MapArray[i].SetActive(false);
+         }
+     GameObject selection = MapArray.Where(i=>!i.activeSelf).OrderBy(n=>Random.value).FirstOrDefault();
+ 
+     // selection will be null if all game objects are already active
+     if (selection != null) selection.SetActive(true);
+    }
 
     void ResetScene()
     {
+        ActivateRandomMap();  
         //print("Reset Scene()");
 
         //Reset counter
