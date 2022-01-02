@@ -68,7 +68,8 @@ public class ControllerHideAndSeek : MonoBehaviour
     private SimpleMultiAgentGroup m_AgentGroup;
 
     private TotalAccuratedScaledTimer totalAccuratedScaledTimer;
-    
+    public GameObject Blocky;
+    public int freezeSteps = 400;
     void Start()
     {
 
@@ -109,15 +110,21 @@ public class ControllerHideAndSeek : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        SeekersList[0].Agent.transform.GetChild(1).gameObject.SetActive(true);
         m_ResetTimer += 1;
+        if (m_ResetTimer >freezeSteps){
+            //print("ready!");
+            SeekersList[0].Agent.transform.GetChild(1).gameObject.SetActive(false);
+            //unfreeze it
+            SeekersList[0].Agent.GetComponent<Rigidbody>().constraints = ~(RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ); 
+        }
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
+            SeekersList[0].Agent.transform.GetChild(1).gameObject.SetActive(true);
             //m_AgentGroup.GroupEpisodeInterrupted();
             
             ResetScene();
         }
-        //totalAccuratedScaledTimer.Step();
-        //print("timer"+totalAccuratedScaledTimer.timer);
     }
 
     public void TouchedHazard(SeekerAgent agent)
@@ -147,7 +154,7 @@ public class ControllerHideAndSeek : MonoBehaviour
 
     public void Catched()
     {
-        print("Catched()");
+        //print("Catched()");
         //m_AgentGroup.AddGroupReward(1f);
         StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.goalScoredMaterial, 0.5f));
         ResetScene();
@@ -220,6 +227,10 @@ public class ControllerHideAndSeek : MonoBehaviour
         var rot = UseRandomAgentRotation ? GetRandomRot() : SeekersList[0].StartingRot;
 
         SeekersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
+
+        //freezee it in place
+        SeekersList[0].Agent.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ |
+         RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationY;
         //AgentsList[0].Rb.velocity = Vector3.zero;
         //AgentsList[0].Rb.angularVelocity = Vector3.zero;
         
@@ -229,6 +240,12 @@ public class ControllerHideAndSeek : MonoBehaviour
         pos = UseRandomAgentPosition ? GetRandomSpawnPos() : HidersList[0].StartingPos;
         rot = UseRandomAgentRotation ? GetRandomRot() : HidersList[0].StartingRot;
         HidersList[0].Agent.transform.SetPositionAndRotation(pos, rot);
+        
+        //set block to not discovered to then stimulate the first collision with a reward
+        HidersList[0].Agent.GetComponent<HiderAgent>().blockDiscovered = false;
+
+        Blocky.transform.parent = SeekersList[0].Agent.transform.parent;
+        Blocky.transform.SetPositionAndRotation(GetRandomSpawnPos(), GetRandomRot());
 /*
         //Reset Agents
         

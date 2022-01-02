@@ -12,6 +12,9 @@ public class HiderAgent : Agent
     private ControllerHideAndSeek m_GameController;
     public GameObject Controller;
     public GameObject SeekerAgent;
+    public GameObject Blocky;
+    bool canGrab;
+    public bool blockDiscovered=false;
     public override void Initialize()
     {
         m_GameController = Controller.GetComponent<ControllerHideAndSeek>();
@@ -28,7 +31,12 @@ public class HiderAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
+        sensor.AddObservation(transform.rotation.z);
+        sensor.AddObservation(transform.rotation.x);
+
         sensor.AddObservation(SeekerAgent.transform.localPosition);
+        sensor.AddObservation(SeekerAgent.transform.rotation.z);
+        sensor.AddObservation(SeekerAgent.transform.rotation.x);
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -56,6 +64,12 @@ public class HiderAgent : Agent
                 dirToGo = transform.right * -0.75f;
                 break;
             case 6:
+                if(Blocky.transform.parent != this.gameObject.transform.parent){//is grabed?
+                    Blocky.transform.parent = this.gameObject.transform.parent; //leave it  
+                    canGrab=true;
+                }
+                break;
+            case 7://I press space
                 dirToGo = transform.right * 0.75f;
                 break;
         }
@@ -75,7 +89,7 @@ public class HiderAgent : Agent
             }
         */
         // Reward given each step to encourage agent to last longer.
-        AddReward(1f/MaxStep);        
+        AddReward(100f/MaxStep);        
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -105,6 +119,10 @@ public class HiderAgent : Agent
         {
             discreteActionsOut[0] = 4;
         }
+        else if (Input.GetKey(KeyCode.Space))
+        {
+            discreteActionsOut[0] = 7;
+        }
     }
 
     public void Spotted(){
@@ -117,7 +135,24 @@ public class HiderAgent : Agent
         {
             AddReward(-10);
             EndEpisode();
-        }        
+        }
+        if (col.transform.CompareTag("block"))
+        {
+            if(!canGrab){
+                if(!blockDiscovered){
+                    AddReward(50);
+                    blockDiscovered=true;
+                }
+                Blocky.transform.parent = this.gameObject.transform;//grab it!
+            }
+            //canGrab = true;          
+        }
+    }
+    private void OnCollisionExit(Collision other) {
+        if (other.transform.CompareTag("block"))
+        {
+            canGrab = false;          
+        }
     }
     
 }

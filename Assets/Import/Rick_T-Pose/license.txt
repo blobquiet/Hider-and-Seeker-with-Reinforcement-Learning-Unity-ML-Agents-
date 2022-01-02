@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rick T-Pose
+* source:	https://sketchfab.com/3d-models/rick-t-pose-01ab944194c54b508b1dd96dfe7514d9
+* author:	CzernO (https://sketchfab.com/czernobog)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rick T-Pose" (https://sketchfab.com/3d-models/rick-t-pose-01ab944194c54b508b1dd96dfe7514d9) by CzernO (https://sketchfab.com/czernobog) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

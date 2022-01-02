@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rick and Morty Garage (Fan Art)
+* source:	https://sketchfab.com/3d-models/rick-and-morty-garage-fan-art-4e882af2241d43bc9870ad7ef13fe539
+* author:	Nika Mumladze (https://sketchfab.com/nikam12345678)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rick and Morty Garage (Fan Art)" (https://sketchfab.com/3d-models/rick-and-morty-garage-fan-art-4e882af2241d43bc9870ad7ef13fe539) by Nika Mumladze (https://sketchfab.com/nikam12345678) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

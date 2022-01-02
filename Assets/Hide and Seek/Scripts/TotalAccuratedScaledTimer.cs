@@ -12,7 +12,7 @@ public class TotalAccuratedScaledTimer : object {
 	public TotalAccuratedScaledTimer(float interval, Action callback) {
 		m_interval = interval;
 		m_callback = callback;
-			
+
 		timer = Time.fixedTime + m_interval;
 	}
 
