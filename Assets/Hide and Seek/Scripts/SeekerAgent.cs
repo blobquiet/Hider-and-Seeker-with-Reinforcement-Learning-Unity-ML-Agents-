@@ -36,8 +36,8 @@ public class SeekerAgent : Agent
     
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(hiderAgent.transform.localPosition);
+        //sensor.AddObservation(transform.localPosition);
+        //sensor.AddObservation(hiderAgent.transform.localPosition);
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -76,7 +76,7 @@ public class SeekerAgent : Agent
     {
         // Move the agent using the action.
         MoveAgent(actionBuffers.DiscreteActions);
-
+        /*
         var RaycastSensor = this.gameObject.transform.GetChild(0);        
         var Output = RayPerceptionSensor.Perceive(RaycastSensor.GetComponent<RayPerceptionSensorComponent3D>().GetRayPerceptionInput());
         var foundSeeker = false;
@@ -100,8 +100,9 @@ public class SeekerAgent : Agent
                 //AddReward(1f/m_GameController.MaxEnvironmentSteps);
                 foundSeeker=false;
             }
+        */
         // Penalty given each step to encourage agent to finish task quickly.
-        AddReward(-10f/MaxStep);
+        AddReward(-1f/MaxStep);
 
         //https://forum.unity.com/threads/how-to-get-rayperceptionsensor-values.1010440/
 
@@ -142,7 +143,7 @@ public class SeekerAgent : Agent
     {
         if (col.transform.CompareTag("hider"))
         {
-            AddReward(100);
+            AddReward(10);
             m_GameController.Catched();
             EndEpisode();
             //m_GameController.TouchedHazard(this);

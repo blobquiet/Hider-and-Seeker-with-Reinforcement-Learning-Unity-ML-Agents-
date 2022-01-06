@@ -31,12 +31,10 @@ public class HiderAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition);
-        sensor.AddObservation(transform.rotation.z);
-        sensor.AddObservation(transform.rotation.x);
-
+        sensor.AddObservation(transform.localRotation);
+        
         sensor.AddObservation(SeekerAgent.transform.localPosition);
-        sensor.AddObservation(SeekerAgent.transform.rotation.z);
-        sensor.AddObservation(SeekerAgent.transform.rotation.x);
+        sensor.AddObservation(SeekerAgent.transform.localRotation);
     }
 
     public void MoveAgent(ActionSegment<int> act)
@@ -89,7 +87,7 @@ public class HiderAgent : Agent
             }
         */
         // Reward given each step to encourage agent to last longer.
-        AddReward(100f/MaxStep);        
+        AddReward(1f/MaxStep);        
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -140,7 +138,7 @@ public class HiderAgent : Agent
         {
             if(!canGrab){
                 if(!blockDiscovered){
-                    AddReward(50);
+                    AddReward(10);
                     blockDiscovered=true;
                 }
                 Blocky.transform.parent = this.gameObject.transform;//grab it!
