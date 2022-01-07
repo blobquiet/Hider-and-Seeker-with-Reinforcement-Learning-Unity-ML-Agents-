@@ -72,6 +72,9 @@ public class ControllerHideAndSeekOld : MonoBehaviour
 
     public GameObject[] MapArray;
     
+    private AudioSource[] _seekerAudioSources;
+    private AudioSource[] _hiderAudioSources;
+    
     void Start()
     {
 
@@ -106,6 +109,10 @@ public class ControllerHideAndSeekOld : MonoBehaviour
             item.Col = item.Agent.GetComponent<Collider>();
         }
         */
+        
+        _seekerAudioSources = SeekersList[0].Agent.GetComponents<AudioSource>();
+        _hiderAudioSources = HidersList[0].Agent.GetComponents<AudioSource>();
+        
         ResetScene();
     }
 
@@ -116,7 +123,7 @@ public class ControllerHideAndSeekOld : MonoBehaviour
         if (m_ResetTimer >= MaxEnvironmentSteps && MaxEnvironmentSteps > 0)
         {
             //m_AgentGroup.GroupEpisodeInterrupted();
-            
+            _hiderAudioSources[Random.Range(0, 3)].Play();
             ResetScene();
         }
         //totalAccuratedScaledTimer.Step();
@@ -151,6 +158,7 @@ public class ControllerHideAndSeekOld : MonoBehaviour
     public void Catched()
     {
         print("Catched()");
+        _seekerAudioSources[Random.Range(0, 3)].Play();
         //m_AgentGroup.AddGroupReward(1f);
         StartCoroutine(GoalScoredSwapGroundMaterial(HideAndSeekSettings.goalScoredMaterial, 0.5f));
         ResetScene();
