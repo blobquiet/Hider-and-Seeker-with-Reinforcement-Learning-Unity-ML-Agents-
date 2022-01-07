@@ -81,7 +81,7 @@ public class SeekerAgentOld : Agent
                 anim.SetFloat("Y_speed",1f);
                 break;
         }
-        transform.Rotate(rotateDir, Time.fixedDeltaTime * 100f);
+        transform.Rotate(rotateDir, Time.fixedDeltaTime * 200f);
         m_AgentRb.AddForce(dirToGo * m_Settings.agentRunSpeed,
             ForceMode.VelocityChange);
     }
